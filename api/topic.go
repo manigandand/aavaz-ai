@@ -5,6 +5,7 @@ import (
 	"aavaz/respond"
 	"aavaz/schema"
 	"aavaz/types"
+	"fmt"
 	"math"
 	"net/http"
 )
@@ -29,7 +30,23 @@ func getTopicAnalysisHandler(w http.ResponseWriter, r *http.Request) *errors.App
 		return err
 	}
 
-	respond.OK(w, getStates(analysis))
+	res := getStates(analysis)
+	totalRes := len(analysis)
+	// make sure about the length, offset:limit not exceeds length
+	sliceLimit := page.Limit
+	if page.Offset+page.Limit >= totalRes {
+		sliceLimit = (page.Offset + page.Limit) - totalRes
+	}
+	if page.Offset < totalRes {
+		fmt.Println("less offset", page.Offset, " ", sliceLimit)
+		res.Feedbacks = analysis[page.Offset:(page.Offset + sliceLimit)]
+	}
+	if page.Offset >= totalRes { // no result
+		fmt.Println("greater offset", page.Offset, " ", sliceLimit)
+		res.Feedbacks = make([]*schema.Analysis, 0)
+	}
+
+	respond.Paginate(w, r, res, page, totalRes, len(res.Feedbacks))
 	return nil
 }
 
@@ -49,9 +66,7 @@ func getStates(analysis []*schema.Analysis) *types.AnalysisRes {
 		}
 	}
 
-	// TODO: make sure about the length, offset:limit not exceeds length
 	return &types.AnalysisRes{
-		Feedbacks: analysis[0:10],
 		Analytics: &types.Sentiment{
 			Total:        total,
 			NetSentiment: positive - negative,
