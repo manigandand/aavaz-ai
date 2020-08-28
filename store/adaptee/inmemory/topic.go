@@ -16,7 +16,7 @@ func NewTopicStore(client *Client) *Topic {
 }
 
 // func (t *Topic) tableName() string {
-// 	return "abilities"
+// 	return "topics"
 // }
 
 func (t *Topic) All() ([]*schema.Topic, *errors.AppError) {
