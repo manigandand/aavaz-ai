@@ -1,1 +1,80 @@
-[{"topic": "APP_PERFORMANCE", "mentions": 8011, "sentiment": {"negative": "      0.34", "positive": "      0.66"}, "theme": "APP_PERFORMANCE"}, {"topic": "PRODUCT_BUGS", "mentions": 3406, "sentiment": {"negative": "      1.00", "positive": "      0.00"}, "theme": "PRODUCT_BUGS"}, {"topic": "OVERALL_EXPERIENCE", "mentions": 23708, "sentiment": {"negative": "      0.32", "positive": "      0.68"}, "theme": "OVERALL_EXPERIENCE"}, {"topic": "CUSTOMER_SUPPORT", "mentions": 5996, "sentiment": {"negative": "      0.80", "positive": "      0.20"}, "theme": "CUSTOMER_SUPPORT"}, {"topic": "PAYMENT", "mentions": 3647, "sentiment": {"negative": "      1.00", "positive": "      0.00"}, "theme": "PAYMENT"}, {"topic": "DELIVERY_PARTNER", "mentions": 14928, "sentiment": {"negative": "      0.33", "positive": "      0.67"}, "theme": "DELIVERY_PARTNER"}, {"topic": "DELIVERY_TIME", "mentions": 5289, "sentiment": {"negative": "      0.00", "positive": "      1.00"}, "theme": "DELIVERY_TIME"}, {"topic": "LOCATION_RANGE", "mentions": 4068, "sentiment": {"negative": "      1.00", "positive": "      0.00"}, "theme": "LOCATION_RANGE"}, {"topic": "DISCOUNTS", "mentions": 4151, "sentiment": {"negative": "      0.00", "positive": "      1.00"}, "theme": "DISCOUNTS"}, {"topic": "PRICE", "mentions": 4237, "sentiment": {"negative": "      0.56", "positive": "      0.44"}, "theme": "PRICE"}, {"topic": "COMPETITOR", "mentions": 1547, "sentiment": {"negative": "      0.00", "positive": "      1.00"}, "theme": "COMPETITOR"}, {"topic": "SERVICE_RELIABILITY", "mentions": 4508, "sentiment": {"negative": "      0.00", "positive": "      1.00"}, "theme": "SERVICE_RELIABILITY"}, {"topic": "ITEMS", "mentions": 3534, "sentiment": {"negative": "      0.00", "positive": "      1.00"}, "theme": "ITEMS"}]
+[
+	{
+		"topic": "APP_PERFORMANCE",
+		"mentions": 8011,
+		"sentiment": { "negative": "0.34", "positive": "0.66" },
+		"theme": "APP_PERFORMANCE"
+	},
+	{
+		"topic": "PRODUCT_BUGS",
+		"mentions": 3406,
+		"sentiment": { "negative": "1.00", "positive": "0.00" },
+		"theme": "PRODUCT_BUGS"
+	},
+	{
+		"topic": "OVERALL_EXPERIENCE",
+		"mentions": 23708,
+		"sentiment": { "negative": "0.32", "positive": "0.68" },
+		"theme": "OVERALL_EXPERIENCE"
+	},
+	{
+		"topic": "CUSTOMER_SUPPORT",
+		"mentions": 5996,
+		"sentiment": { "negative": "0.80", "positive": "0.20" },
+		"theme": "CUSTOMER_SUPPORT"
+	},
+	{
+		"topic": "PAYMENT",
+		"mentions": 3647,
+		"sentiment": { "negative": "1.00", "positive": "0.00" },
+		"theme": "PAYMENT"
+	},
+	{
+		"topic": "DELIVERY_PARTNER",
+		"mentions": 14928,
+		"sentiment": { "negative": "0.33", "positive": "0.67" },
+		"theme": "DELIVERY_PARTNER"
+	},
+	{
+		"topic": "DELIVERY_TIME",
+		"mentions": 5289,
+		"sentiment": { "negative": "0.00", "positive": "1.00" },
+		"theme": "DELIVERY_TIME"
+	},
+	{
+		"topic": "LOCATION_RANGE",
+		"mentions": 4068,
+		"sentiment": { "negative": "1.00", "positive": "0.00" },
+		"theme": "LOCATION_RANGE"
+	},
+	{
+		"topic": "DISCOUNTS",
+		"mentions": 4151,
+		"sentiment": { "negative": "0.00", "positive": "1.00" },
+		"theme": "DISCOUNTS"
+	},
+	{
+		"topic": "PRICE",
+		"mentions": 4237,
+		"sentiment": { "negative": "0.56", "positive": "0.44" },
+		"theme": "PRICE"
+	},
+	{
+		"topic": "COMPETITOR",
+		"mentions": 1547,
+		"sentiment": { "negative": "0.00", "positive": "1.00" },
+		"theme": "COMPETITOR"
+	},
+	{
+		"topic": "SERVICE_RELIABILITY",
+		"mentions": 4508,
+		"sentiment": { "negative": "0.00", "positive": "1.00" },
+		"theme": "SERVICE_RELIABILITY"
+	},
+	{
+		"topic": "ITEMS",
+		"mentions": 3534,
+		"sentiment": { "negative": "0.00", "positive": "1.00" },
+		"theme": "ITEMS"
+	}
+]
