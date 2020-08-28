@@ -4,7 +4,7 @@ package schema
 type Analysis struct {
 	Text   string  `json:"text"`
 	Themes []Theme `json:"themes"`
-	Score  int     `json:"score"`
+	Score  float64 `json:"score"`
 	Date   string  `json:"date"`
 }
 

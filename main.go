@@ -4,6 +4,7 @@ import (
 	"aavaz/api"
 	"aavaz/config"
 	appmiddleware "aavaz/middleware"
+	"aavaz/store"
 	"fmt"
 	"net/http"
 
@@ -14,11 +15,12 @@ import (
 )
 
 var (
-	name    = "batman"
+	name    = "aavaz"
 	version = "1.0.0"
 )
 
 func main() {
+	store.Init()
 	api.InitAPI(name, version)
 
 	router := chi.NewRouter()

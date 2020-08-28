@@ -3,6 +3,8 @@ package api
 import (
 	"aavaz/errors"
 	"aavaz/respond"
+	stre "aavaz/store"
+	"aavaz/store/adapter"
 	"aavaz/types"
 
 	"net/http"
@@ -10,6 +12,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 )
+
+// store connection copy
+var store adapter.Store
 
 // ServiceInfo stores basic service information
 type ServiceInfo struct {
@@ -25,6 +30,8 @@ var serviceInfo *ServiceInfo
 
 // InitAPI sets the service name
 func InitAPI(name, version string) {
+	store = stre.Store
+
 	ServiceName = name
 	serviceInfo = &ServiceInfo{
 		Name:    name,
@@ -50,7 +57,7 @@ func (f Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Basic Handler func ---------------------------------------------------------------
+// Basic Handler func ----------------------------------------------------------
 
 // IndexHandeler common index handler for all the service
 func IndexHandeler(w http.ResponseWriter, r *http.Request) {
