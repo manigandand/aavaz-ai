@@ -31,7 +31,22 @@ func (c *Client) loadTopics() {
 	if err = json.Unmarshal([]byte(file), &data); err != nil {
 		log.Fatal("couldn't able to unmarshal topics data. " + err.Error())
 	}
+	// load map
+	// topicMap := make(map[string]*schema.Topic)
+	for _, t := range data {
+		// topicMap[t.Topic] = t
+		t.Themes = []*schema.TopicTheme{
+			{
+				Topic:     t.Topic,
+				Sentiment: t.Sentiment,
+				Theme:     t.Theme,
+				Mentions:  t.Mentions,
+			},
+		}
+	}
+
 	c.topics = data
+	// c.topicsMap = topicMap
 }
 
 func (c *Client) loadTopicsAnalysis() {

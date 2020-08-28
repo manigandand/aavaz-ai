@@ -73,6 +73,7 @@ func (r *Response) Send(w http.ResponseWriter) {
 	defer gz.Close()
 	buf, err := json.Marshal(r)
 	if err != nil {
+		// Fail(w, )
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 

@@ -7,7 +7,8 @@ import (
 
 // Client struct implements the store adapter interface
 type Client struct {
-	topics           []*schema.Topic
+	topics []*schema.Topic
+	// topicsMap        map[string]*schema.Topic
 	topicAnalysis    []*schema.Analysis
 	topicAnalysisMap map[string][]*schema.Analysis
 	TopicConn        adapter.Topic
