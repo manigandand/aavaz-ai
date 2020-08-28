@@ -15,4 +15,5 @@ func Routes(router chi.Router) {
 
 func InitV1Routes(r chi.Router) {
 	r.Method(http.MethodGet, "/topics", Handler(getAllTopicsHandler))
+	r.Method(http.MethodGet, "/topics/analysis", Handler(getTopicAnalysisHandler))
 }
