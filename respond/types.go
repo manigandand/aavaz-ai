@@ -1,14 +1,14 @@
 package respond
 
 import (
-	"aavaz/config"
+	"fmt"
 	"reflect"
 	"time"
 
 	"compress/gzip"
 	"encoding/json"
 	"net/http"
-	"strconv"
+	"net/url"
 
 	"github.com/gorilla/schema"
 	log "github.com/sirupsen/logrus"
@@ -25,24 +25,16 @@ type Response struct {
 	Meta Meta        `json:"meta"`
 }
 
-// PageResponse holds the paginated handlerfunc response
-type PageResponse struct {
-	Data interface{} `json:"data"`
-	Meta MetaPage    `json:"meta"`
-}
-
 // Meta holds the status of the request informations
 type Meta struct {
 	Status  int    `json:"status_code"`
 	Message string `json:"error_message,omitempty"`
-}
 
-// MetaPage holds the paginated data inforamtions
-type MetaPage struct {
-	Meta
+	// Pagination
 	Total    int    `json:"total,omitempty"`
 	Count    int    `json:"count,omitempty"`
 	Previous string `json:"previous,omitempty"`
+	Current  string `json:"current,omitempty"`
 	Next     string `json:"next,omitempty"`
 }
 
@@ -100,32 +92,51 @@ func (r *Response) Send(w http.ResponseWriter) {
 }
 
 // Paginate returns the response container with paginated inforamtions
-func Paginate(w http.ResponseWriter, r *http.Request, data interface{}, p *Page, isEOF bool, count int) {
-	res := &PageResponse{Data: data}
-	params := r.URL.Query()
-	// there exists next page
-	if !isEOF {
-		nextPage := Page{Limit: p.Limit, Offset: p.Limit + p.Offset}
-		params.Set("limit", strconv.Itoa(nextPage.Limit))
-		params.Set("offset", strconv.Itoa(nextPage.Offset))
-		res.Meta.Next = config.APIHost + r.URL.Path + "?" + params.Encode()
+func Paginate(w http.ResponseWriter, r *http.Request, data interface{}, p *Page, total, count int) {
+	var (
+		previous,
+		current,
+		next string
+	)
+
+	scheme := "http"
+	if r.TLS != nil {
+		scheme = "https"
 	}
 
-	// there exists previous page
-	if p.Offset > 0 {
-		var newOff int
-		if p.Offset-p.Limit <= 0 {
-			newOff = 0
-		} else {
-			newOff = p.Offset - p.Limit
-		}
-		prevPage := Page{Limit: p.Limit, Offset: newOff}
-		params.Set("limit", strconv.Itoa(prevPage.Limit))
-		params.Set("offset", strconv.Itoa(prevPage.Offset))
-		res.Meta.Previous = config.APIHost + r.URL.Path + "?" + params.Encode()
+	current = fmt.Sprintf("%s://%s%s", scheme, r.Host, r.RequestURI)
+	u, err := url.Parse(current)
+	if err != nil {
+		// return nil
 	}
-	res.Meta.Count = count
-	res.Meta.Status = http.StatusOK
 
-	// With(w, res.Meta.Status, res)
+	prevQuery := u.Query()
+	nextQuery := u.Query()
+	// previous
+	if p.Offset != 0 {
+		prevQuery.Set("limit", fmt.Sprintf("%d", p.Limit))
+		prevQuery.Set("offset", fmt.Sprintf("%d", p.Offset-p.Limit))
+		u.RawQuery = prevQuery.Encode()
+		previous = u.String()
+	}
+	// next link
+	if p.Offset < (total-1) && p.Offset+count < total {
+		nextQuery.Set("limit", fmt.Sprintf("%d", p.Limit))
+		nextQuery.Set("offset", fmt.Sprintf("%d", p.Offset+p.Limit))
+		u.RawQuery = nextQuery.Encode()
+		next = u.String()
+	}
+
+	res := &Response{
+		Data: data,
+		Meta: Meta{
+			Status:   http.StatusOK,
+			Total:    total,
+			Count:    count,
+			Previous: previous,
+			Current:  current,
+			Next:     next,
+		},
+	}
+	res.Send(w)
 }
