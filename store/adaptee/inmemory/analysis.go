@@ -40,3 +40,16 @@ func (a *Analysis) Get(topics []string) ([]*schema.Analysis, *errors.AppError) {
 
 	return res, nil
 }
+
+func (a *Analysis) Search(topic string) ([]*schema.Analysis, *errors.AppError) {
+	if len(a.topicAnalysis) == 0 || a.topicAnalysisMap == nil {
+		return nil, errors.InternalServer("couldn't able to load the data")
+	}
+
+	ays, ok := a.topicAnalysisMap[topic]
+	if !ok {
+		return nil, errors.NotFound("topic not found")
+	}
+
+	return ays, nil
+}
