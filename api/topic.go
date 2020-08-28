@@ -5,9 +5,9 @@ import (
 	"aavaz/respond"
 	"aavaz/schema"
 	"aavaz/types"
-	"fmt"
 	"math"
 	"net/http"
+	"sort"
 )
 
 func getAllTopicsHandler(w http.ResponseWriter, r *http.Request) *errors.AppError {
@@ -32,17 +32,19 @@ func getTopicAnalysisHandler(w http.ResponseWriter, r *http.Request) *errors.App
 
 	res := getStates(analysis)
 	totalRes := len(analysis)
+	if page.Sort == "date" {
+		sort.Sort(SortByDate(analysis))
+	}
+
 	// make sure about the length, offset:limit not exceeds length
 	sliceLimit := page.Limit
 	if page.Offset+page.Limit >= totalRes {
 		sliceLimit = (page.Offset + page.Limit) - totalRes
 	}
 	if page.Offset < totalRes {
-		fmt.Println("less offset", page.Offset, " ", sliceLimit)
 		res.Feedbacks = analysis[page.Offset:(page.Offset + sliceLimit)]
 	}
 	if page.Offset >= totalRes { // no result
-		fmt.Println("greater offset", page.Offset, " ", sliceLimit)
 		res.Feedbacks = make([]*schema.Analysis, 0)
 	}
 
@@ -80,3 +82,9 @@ func getStates(analysis []*schema.Analysis) *types.AnalysisRes {
 func PercentOf(part int, total int) float64 {
 	return math.Floor((float64(part) * float64(100)) / float64(total))
 }
+
+type SortByDate []*schema.Analysis
+
+func (a SortByDate) Len() int           { return len(a) }
+func (a SortByDate) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a SortByDate) Less(i, j int) bool { return a[i].Date < a[j].Date }

@@ -43,6 +43,7 @@ type Page struct {
 	Offset int      `schema:"offset" url:"offset"`
 	Limit  int      `schema:"limit" url:"limit"`
 	Topics []string `schema:"topics" url:"topics"`
+	Sort   string   `schema:"sort" url:"sort"`
 }
 
 func init() {
