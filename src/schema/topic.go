@@ -1,5 +1,6 @@
 package schema
 
+// Topic struct holds the overall informations about the topic
 type Topic struct {
 	Topic     string    `json:"topic"`
 	Mentions  int       `json:"mentions"`
