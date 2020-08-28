@@ -20,6 +20,21 @@ func getAllTopicsHandler(w http.ResponseWriter, r *http.Request) *errors.AppErro
 	return nil
 }
 
+func searchTopicsHandler(w http.ResponseWriter, r *http.Request) *errors.AppError {
+	if err := r.ParseForm(); err != nil {
+		return errors.BadRequest(err.Error()).AddDebug(err)
+	}
+
+	topic := r.URL.Query().Get("topic")
+	analysis, err := store.Analysis().Search(topic)
+	if err != nil {
+		return err
+	}
+
+	respond.OK(w, analysis)
+	return nil
+}
+
 func getTopicAnalysisHandler(w http.ResponseWriter, r *http.Request) *errors.AppError {
 	if err := r.ParseForm(); err != nil {
 		return errors.BadRequest(err.Error()).AddDebug(err)
