@@ -15,5 +15,5 @@ type Topic interface {
 }
 
 type Analysis interface {
-	Get() ([]*schema.Analysis, *errors.AppError)
+	Get(topics []string) ([]*schema.Analysis, *errors.AppError)
 }

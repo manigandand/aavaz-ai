@@ -2,6 +2,8 @@ package respond
 
 import (
 	"aavaz/config"
+	"reflect"
+	"time"
 
 	"compress/gzip"
 	"encoding/json"
@@ -46,14 +48,24 @@ type MetaPage struct {
 
 // Page holds the paginate informations
 type Page struct {
-	Offset int `schema:"offset" url:"offset"`
-	Limit  int `schema:"limit" url:"limit"`
+	Offset int      `schema:"offset" url:"offset"`
+	Limit  int      `schema:"limit" url:"limit"`
+	Topics []string `schema:"topics" url:"topics"`
 }
 
 func init() {
 	decoder = schema.NewDecoder()
 	decoder.ZeroEmpty(true)
 	decoder.IgnoreUnknownKeys(true)
+	decoder.RegisterConverter(time.Time{}, parseFilterTime)
+}
+
+func parseFilterTime(date string) reflect.Value {
+	if s, err := time.Parse(time.RFC3339, date); err == nil {
+		return reflect.ValueOf(s)
+	}
+
+	return reflect.Value{}
 }
 
 // NewPage decodes the pagiante information from the request

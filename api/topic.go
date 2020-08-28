@@ -20,8 +20,11 @@ func getAllTopicsHandler(w http.ResponseWriter, r *http.Request) *errors.AppErro
 }
 
 func getTopicAnalysisHandler(w http.ResponseWriter, r *http.Request) *errors.AppError {
-	// page := respond.NewPage(r)
-	analysis, err := store.Analysis().Get()
+	if err := r.ParseForm(); err != nil {
+		return errors.BadRequest(err.Error()).AddDebug(err)
+	}
+	page := respond.NewPage(r)
+	analysis, err := store.Analysis().Get(page.Topics)
 	if err != nil {
 		return err
 	}
